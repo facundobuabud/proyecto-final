@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "../views/Login";
 import { Messages } from "../views/Message";
+import { NotFound } from "../views/NotFound";
 
 const RouterApp = () => {
   return (
@@ -8,6 +9,7 @@ const RouterApp = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/chat" element={<Messages />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

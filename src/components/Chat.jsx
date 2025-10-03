@@ -1,17 +1,31 @@
+import { useState } from "react"
+
 export default function Chat() {
+  const [msg, setMsg] = useState("")
+
+
+  const handleChange = (event) => {
+    setMsg(event.target.vale)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    setMsg("")
+  }
   return (
     <div className="chat">
       <header className="chat-header">
-        <div className="chat-user">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
-            alt="Aiden Chavez"
-            className="chat-avatar"
-          />
-          <div>
+        <div>
+          <div className="chat-user">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
+              alt="Aiden Chavez"
+              className="chat-avatar"
+            />
             <strong>Aiden Chavez</strong>
-            <span className="last-seen"> Last seen: 2 hours ago</span>
           </div>
+          <span className="last-seen"> Last seen: 2 hours ago</span>
         </div>
 
         <div className="chat-actions">
@@ -33,9 +47,16 @@ export default function Chat() {
         ))}
       </section>
 
-      <footer className="chat-input">
-        <input type="text" placeholder="Enter text here..." />
-        <button>➤</button>
+      <footer className="chat-footer">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Enter text here..."
+            onChange={handleChange}
+            value={msg}
+          />
+          <button>➤</button>
+        </form>
       </footer>
     </div>
   )
