@@ -1,40 +1,10 @@
 import { useState } from "react"
+import { useChat } from "../context/ChatContext"
 
 
 export default function Sidebar() {
 
-  const users = [
-    {
-      id: 1,
-      name: "Juan Perez",
-      status: "offline",
-      lastSeen: "7 mins ago",
-    },
-    {
-      id: 1,
-      name: "Aiden Chavez",
-      status: "offline",
-      lastSeen: "14 mins ago",
-    },
-    {
-      id: 1,
-      name: "Mike Thomas",
-      status: "online",
-      lastSeen: "",
-    },
-    {
-      id: 1,
-      name: "Christian Kelly",
-      status: "online",
-      lastSeen: "",
-    },
-    {
-      id: 1,
-      name: "Monica Ward",
-      status: "offline",
-      lastSeen: "1 hour ago",
-    },
-  ]
+  const { users, setSelectedUser } = useChat()
 
   const [usersToRender, setUsersToRender] = useState(users)
 
@@ -57,7 +27,7 @@ export default function Sidebar() {
       }
       <ul className="user-list">
         {
-          usersToRender.map(user => <li className="user">
+          usersToRender.map(user => <li onClick={() => setSelectedUser(user.id)} className="user">
             <img className="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s" alt="" />
             <div></div>
             <div className="user-info">

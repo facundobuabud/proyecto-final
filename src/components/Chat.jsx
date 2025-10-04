@@ -1,8 +1,19 @@
 import { useState } from "react"
+import { useChat } from "../context/ChatContext"
+
 
 export default function Chat() {
   const [msg, setMsg] = useState("")
-  const [messages, setMessages] = useState([])
+
+  const { users, selectedUser } = useChat()
+
+  const user = users.find(u => u.id === selectedUser)
+
+  if (!user) {
+    return (
+      <p>No hay usuario seleccionado...</p>
+    )
+  }
 
   const handleChange = (event) => {
     setMsg(event.target.vale)
@@ -31,9 +42,9 @@ export default function Chat() {
               alt="Aiden Chavez"
               className="chat-avatar"
             />
-            <strong>Aiden Chavez</strong>
+            <strong>{user.name}</strong>
+            {user.lastSeen !== "" && <span className="last-seen">Last seen: {user.lastSeen}</span>}
           </div>
-          <span className="last-seen"> Last seen: 2 hours ago</span>
         </div>
 
         <div className="chat-actions">
@@ -47,7 +58,7 @@ export default function Chat() {
 
       <section className="chat-messages">
         {
-          messages.map((message) => <div className="message">
+          user.messages.map((message) => <div className="message">
             <p>{message.text}</p>
             <span className="time">{message.time}</span>
           </div>)

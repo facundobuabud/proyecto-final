@@ -6,7 +6,7 @@ const Login = () => {
   const [password, setPassword] = useState()
   const [message, setMessage] = useState()
   const [error, setError] = useState()
-  const [showPassword, setShowPassword] = useState()
+  const [showPassword, setShowPassword] = useState(false)
 
   const navigate = useNavigate()
 
@@ -46,7 +46,9 @@ const Login = () => {
           type={showPassword ? "text" : "password"}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button onClick={handleShowPassword} type="button"><i className="fa fa-eye" aria-hidden="true"></i></button>
+        <button
+          onClick={handleShowPassword}
+          type="button"><i className="fa fa-eye" aria-hidden="true"></i></button>
         <button>Acceder</button>
         {message && <p style={{ color: "green" }}>{message}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
