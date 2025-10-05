@@ -11,12 +11,14 @@ export default function Chat() {
 
   if (!user) {
     return (
-      <p>No hay usuario seleccionado...</p>
+      <div className="user-not-found">
+        <p>No hay usuario seleccionado...</p>
+      </div>
     )
   }
 
   const handleChange = (event) => {
-    setMsg(event.target.vale)
+    setMsg(event.target.value)
   }
 
   const handleSubmit = (event) => {
@@ -28,7 +30,7 @@ export default function Chat() {
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     }
 
-    setMessages([...messages, newMessage])
+    user.messages.push(newMessage)
 
     setMsg("")
   }
