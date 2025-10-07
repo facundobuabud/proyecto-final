@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { useChat } from "../context/ChatContext"
 
-
 export default function Chat() {
   const [msg, setMsg] = useState("")
 
-  const { users, selectedUser } = useChat()
+  // 1. Obtenemos del contexto todo lo necesario
+  const { users, selectedUser, setUsers } = useChat()
 
+  // 2. Buscamos el usuario activo
   const user = users.find(u => u.id === selectedUser)
 
   if (!user) {
@@ -17,10 +18,12 @@ export default function Chat() {
     )
   }
 
+  // 3. Manejo del input
   const handleChange = (event) => {
     setMsg(event.target.value)
   }
 
+  // 4. Cuando enviamos el formulario
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -30,10 +33,18 @@ export default function Chat() {
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     }
 
-    user.messages.push(newMessage)
+    // ✅ Actualizamos el estado de manera INMUTABLE
+    const updatedUsers = users.map(u =>
+      u.id === user.id
+        ? { ...u, messages: [...u.messages, newMessage] }
+        : u
+    )
+
+    setUsers(updatedUsers) // esto dispara el useEffect del contexto que guarda en localStorage
 
     setMsg("")
   }
+
   return (
     <div className="chat">
       <header className="chat-header">
@@ -41,7 +52,7 @@ export default function Chat() {
           <div className="chat-user">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
-              alt="Aiden Chavez"
+              alt={user.name}
               className="chat-avatar"
             />
             <strong>{user.name}</strong>
@@ -57,14 +68,13 @@ export default function Chat() {
         </div>
       </header>
 
-
       <section className="chat-messages">
-        {
-          user.messages.map((message) => <div className="message">
+        {user.messages.map((message) => (
+          <div className="message" key={message.id}>
             <p>{message.text}</p>
             <span className="time">{message.time}</span>
-          </div>)
-        }
+          </div>
+        ))}
       </section>
 
       <footer className="chat-footer">
