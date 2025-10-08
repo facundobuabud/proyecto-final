@@ -1,14 +1,15 @@
 import { useState } from "react"
 import { useChat } from "../context/ChatContext"
+import { useNavigate } from "react-router-dom"
 
 export default function Chat() {
   const [msg, setMsg] = useState("")
 
-  // 1. Obtenemos del contexto todo lo necesario
   const { users, selectedUser, setUsers } = useChat()
 
-  // 2. Buscamos el usuario activo
   const user = users.find(u => u.id === selectedUser)
+
+  const navigate = useNavigate()
 
   if (!user) {
     return (
@@ -18,12 +19,10 @@ export default function Chat() {
     )
   }
 
-  // 3. Manejo del input
   const handleChange = (event) => {
     setMsg(event.target.value)
   }
 
-  // 4. Cuando enviamos el formulario
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -33,16 +32,20 @@ export default function Chat() {
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     }
 
-    // ✅ Actualizamos el estado de manera INMUTABLE
     const updatedUsers = users.map(u =>
       u.id === user.id
         ? { ...u, messages: [...u.messages, newMessage] }
         : u
     )
 
-    setUsers(updatedUsers) // esto dispara el useEffect del contexto que guarda en localStorage
+    setUsers(updatedUsers)
 
     setMsg("")
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn")
+    navigate("/")
   }
 
   return (
@@ -65,6 +68,7 @@ export default function Chat() {
           <button title="Gallery">🖼️</button>
           <button title="Settings">⚙️</button>
           <button title="Help">❓</button>
+          <button onClick={handleLogout}>Cerrar sesión</button>
         </div>
       </header>
 

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
 
@@ -12,11 +12,19 @@ const Login = () => {
 
   const PASS = "pepe123"
 
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn")
+    if (isLoggedIn === "true") {
+      navigate("/chat")
+    }
+  }, [navigate])
+
   const validatePassword = () => {
     setMessage(null)
     setError(null)
 
     if (password === PASS) {
+      localStorage.setItem("isLoggedIn", "true")
       setMessage("Contraseña valida, serás redirigido.")
       setTimeout(() => {
         navigate("/chat")
@@ -38,7 +46,7 @@ const Login = () => {
   return (
     <main className="login-main">
       <img width={100} src={logo} alt="logo de whatsapp" />
-      <h1>Clon de Whatsapp</h1>
+      <h1>Clon de Whatsapp 🎉</h1>
       <form onSubmit={handleSubmit}>
         <label>Contraseña de acceso</label>
         <input
