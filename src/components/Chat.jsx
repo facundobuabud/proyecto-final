@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { useChat } from "../context/ChatContext"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function Chat() {
   const [msg, setMsg] = useState("")
+  const [showPopup, setShowPopup] = useState(false)
 
   const { users, selectedUser, setUsers } = useChat()
 
@@ -48,50 +49,73 @@ export default function Chat() {
     navigate("/")
   }
 
+  const handleShowPopup = () => {
+    setShowPopup(true)
+  }
+
+  const handleClosePopup = () => {
+    setShowPopup(false)
+  }
+
   return (
-    <div className="chat">
-      <header className="chat-header">
-        <div>
-          <div className="chat-user">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
-              alt={user.name}
-              className="chat-avatar"
+    <>
+      {
+        showPopup === true && <section className="cont-popup">
+          <div className="popup">
+            <h2>Configuración de Chat</h2>
+            <h3>Cambiar tema:</h3>
+            <select name="" id="">
+              <option value="">Claro</option>
+              <option value="">Oscuro</option>
+            </select><br></br>
+            <button onClick={handleClosePopup}>Cerrar</button>
+          </div>
+        </section>
+      }
+      <div className="chat">
+        <header className="chat-header">
+          <div>
+            <div className="chat-user">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
+                alt={user.name}
+                className="chat-avatar"
+              />
+              <strong>{user.name}</strong>
+              {user.lastSeen !== "" && <span className="last-seen">Last seen: {user.lastSeen}</span>}
+            </div>
+          </div>
+
+          <div className="chat-actions">
+            <button title="Camera">📷</button>
+            <button title="Gallery">🖼️</button>
+            <button title="Settings" onClick={handleShowPopup}>⚙️</button>
+            <Link to="/help" title="Help">❓</Link>
+            <button onClick={handleLogout}>Cerrar sesión</button>
+          </div>
+        </header>
+
+        <section className="chat-messages">
+          {user.messages.map((message) => (
+            <div className="message" key={message.id}>
+              <p>{message.text}</p>
+              <span className="time">{message.time}</span>
+            </div>
+          ))}
+        </section>
+
+        <footer className="chat-footer">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Enter text here..."
+              onChange={handleChange}
+              value={msg}
             />
-            <strong>{user.name}</strong>
-            {user.lastSeen !== "" && <span className="last-seen">Last seen: {user.lastSeen}</span>}
-          </div>
-        </div>
-
-        <div className="chat-actions">
-          <button title="Camera">📷</button>
-          <button title="Gallery">🖼️</button>
-          <button title="Settings">⚙️</button>
-          <button title="Help">❓</button>
-          <button onClick={handleLogout}>Cerrar sesión</button>
-        </div>
-      </header>
-
-      <section className="chat-messages">
-        {user.messages.map((message) => (
-          <div className="message" key={message.id}>
-            <p>{message.text}</p>
-            <span className="time">{message.time}</span>
-          </div>
-        ))}
-      </section>
-
-      <footer className="chat-footer">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Enter text here..."
-            onChange={handleChange}
-            value={msg}
-          />
-          <button>➤</button>
-        </form>
-      </footer>
-    </div>
+            <button>➤</button>
+          </form>
+        </footer>
+      </div>
+    </>
   )
 }
