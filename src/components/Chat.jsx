@@ -64,10 +64,20 @@ export default function Chat() {
           <div className="popup">
             <h2>Configuración de Chat</h2>
             <h3>Cambiar tema:</h3>
-            <select name="" id="">
+            <select name="" className="change">
               <option value="">Claro</option>
               <option value="">Oscuro</option>
             </select><br></br>
+            <h3>Cambiar idioma:</h3>
+            <select name="" className="change">
+              <option value="">Español</option>
+              <option value="">English</option>
+              <option value="">Français</option>
+              <option value="">日本語</option>
+              <option value="">中國人</option>
+            </select><br></br>
+            <h3 className="mute-block">Silenciar contacto</h3><br></br>
+            <h3 className="mute-block">Bloquear contacto</h3><br></br>
             <button onClick={handleClosePopup}>Cerrar</button>
           </div>
         </section>

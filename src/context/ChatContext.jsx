@@ -17,7 +17,7 @@ const ChatProvider = ({ children }) => {
       const initialUsers = [
         {
           id: 1,
-          name: "Juan perez",
+          name: "Juan Perez",
           status: "online",
           lastSeen: "",
           messages: [
