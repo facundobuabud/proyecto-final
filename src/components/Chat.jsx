@@ -86,6 +86,7 @@ export default function Chat() {
         <header className="chat-header">
           <div>
             <div className="chat-user">
+              <button type="button" className="back-btn" title="Volver">←</button>
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
                 alt={user.name}
